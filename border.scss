@@ -22,11 +22,12 @@ body{
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        height: 500px;
+        height: auto;
         width: 500px;
         padding: 1em;
         border-radius: 5%;
         .preview{
+            padding: 0px;
             width: 250px;
             height: 250px;
             background: rgb(0,15,115);
@@ -35,7 +36,23 @@ body{
             border-radius: 0%;     
         }
         .configs{
+            padding: 0px;
             display: flex;
+            flex-direction: row;
+            max-height: 70px;
+            height: auto;
+            input{
+                font-size: 16px;
+                color: #121212;
+                width: 100%;
+                font-family: 'Lato', sans-serif;
+                padding: 1em 0.5em;
+                margin: 1em 0.5em;
+            }
+        }
+        .advanced{
+            display: none;
+            padding: 0px;
             flex-direction: row;
             height: auto;
             input{
@@ -45,6 +62,20 @@ body{
                 font-family: 'Lato', sans-serif;
                 padding: 1em 0.5em;
                 margin: 1em 0.5em;
+            }
+        }
+        .button{
+            padding: 0px;
+            display: flex;
+            align-items: flex-end;
+            width: 100%;
+            height: auto;
+            button{
+                display: block;
+                background-color: transparent;
+                color: lightseagreen;
+                text-decoration: underline;
+                border: none;
             }
         }
     }
