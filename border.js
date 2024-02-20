@@ -1,111 +1,74 @@
-let supleft = document.querySelector("#supleft")
-let supright = document.querySelector("#supright")
-let infleft = document.querySelector("#infleft")
-let infright = document.querySelector("#infright")
+let radius = document.querySelectorAll(".radius")
 let preview = document.querySelector(".preview")
-let button = document.querySelector("button");
+let button = document.querySelectorAll("button");
 let advanced = document.querySelector(".advanced")
 let advsupleft = document.querySelector("#advsupleft")
 let advsupright = document.querySelector("#advsupright")
 let advinfleft = document.querySelector("#advinfleft")
 let advinfright = document.querySelector("#advinfright")
 
+let radiusValues = [0,0,0,0,0,0,0,0]
 
-supleft.addEventListener("change", function(){
-    if(supleft.value > 100){
-        supleft.value=100;
-    }
-    if(supleft.value < 0){
-        supleft.value=0;
-    }
-    preview.style.borderTopLeftRadius = supleft.value + "%";
+function borderRadius(){
+    preview.style.borderRadius = radiusValues[0] + '% ' + radiusValues[1] + '% ' + radiusValues[2] + '% ' + radiusValues[3] + '% ';
+}
+
+function advancedBorderRadius(){
+    preview.style.borderRadius = radiusValues[0] + '% ' + radiusValues[1] + '% ' + radiusValues[2] + '% ' + radiusValues[3] + '% ' + '/ ' + radiusValues[4] + '% ' + radiusValues[5] + '% ' + radiusValues[6] + '% ' + radiusValues[7] + '% '
+}
+
+radius.forEach((border, index) => {
+    border.addEventListener("input", function(){
+        radiusValues[index]= border.value;
+        if(border.value == '' || border.value == null || border.value < 0 ){
+            border.value = ' ';
+            radiusValues[index]=0;
+        }
+        if(border.value > 100){
+            border.value = 100;
+            radiusValues[index]=100;
+        }
+        if(advanced.style.display === 'flex'){
+            advancedBorderRadius();
+        }
+        else{
+            borderRadius(); 
+        }
+    })
 })
 
-supright.addEventListener("change", function(){
-    if(supright.value > 100){
-        supright.value=100;
-    }
-    if(supright.value < 0){
-        supright.value=0;
-    }
-    preview.style.borderTopRightRadius = supright.value + "%";
-})
-
-infleft.addEventListener("change", function(){
-    if(infleft.value > 100){
-        infleft.value=100;
-    }
-    if(infleft.value < 0){
-        infleft.value=0;
-    }
-    preview.style.borderBottomLeftRadius = infleft.value + "%";
-})
-
-infright.addEventListener("change", function(){
-    if(infright.value > 100){
-        infright.value=100;
-    }
-    if(infright.value < 0){
-        infright.value=0;
-    }
-    preview.style.borderBottomRightRadius = infright.value + "%";
-})
-
-advsupleft.addEventListener("change", function(){
-    if(advsupleft.value > 100){
-        advsupleft.value=100;
-    }
-    if(advsupleft.value < 0){
-        advsupleft.value=0;
-    }
-    preview.style.borderTopLeftRadius = supleft.value + "% " + advsupleft.value + "%";
-})
-
-advsupright.addEventListener("change", function(){
-    if(advsupright.value > 100){
-        advsupright.value=100;
-    }
-    if(advsupright.value < 0){
-        advsupright.value=0;
-    }
-    preview.style.borderTopRightRadius = supright.value + "% " + advsupright.value + "%";
-})
-
-advinfleft.addEventListener("change", function(){
-    if(advinfleft.value > 100){
-        advinfleft.value=100;
-    }
-    if(advinfleft.value < 0){
-        advinfleft.value=0;
-    }
-    preview.style.borderBottomLeftRadius = infleft.value + "% " + advinfleft.value + "%";
-})
-
-advinfright.addEventListener("change", function(){
-    if(advinfright.value > 100){
-        advinfright.value=100;
-    }
-    if(advinfright.value < 0){
-        advinfright.value=0;
-    }
-    preview.style.borderBottomRightRadius = infright.value + "% " + advinfright.value + "%";
-})
-
-button.addEventListener("click", function(){
+button[0].addEventListener("click", function(){
     if(advanced.style.display === "flex"){
         advanced.style.display = "none";
         button.innerHTML = "Advanced Options";
-        preview.style.borderBottomRightRadius = infright.value + "%";
-        preview.style.borderBottomLeftRadius = infleft.value + "%";
-        preview.style.borderTopRightRadius = supright.value + "%";
-        preview.style.borderTopLeftRadius = supleft.value + "%";
-    }
+        borderRadius(); 
+        for(let i = 4; i<8; i++){
+            radius[i] = '';
+            radiusValues[i] = 0; 
+        }
+    }   
     else{
         advanced.style.display = "flex";
-        button.innerHTML = "Normal Options";
-        advinfright.value=0;
-        advinfleft.value=0;
-        advsupright.value=0;
-        advsupleft.value=0;
+        button[0].innerHTML = "Normal Options";
+        advancedBorderRadius();
+    }
+})
+
+function allZeros(arr){
+    for(let i = 0; i<arr.length; i++){
+        if(arr[i]!=0){
+            return false
+        }
+    }
+    return true
+}
+
+button[1].addEventListener("click", function(){
+    let copyText = preview.style.borderRadius;
+    if(allZeros(radiusValues)){
+        navigator.clipboard.writeText('border-radius: 0%');
+    }
+    else{
+        navigator.clipboard.writeText('border-radius: ' + copyText);
     }
 })
